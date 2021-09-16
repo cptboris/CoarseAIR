@@ -54,8 +54,8 @@ Module HO3_NNM_PES_Class
 
   type(Input_Type)                          ::    Input
 
-  real(rkp)                         ,parameter    :: vpescut        = 6.0_rkp*eV_To_Hartree   ! Superior limit of PES [Hartree]
-  real(rkp)                         ,parameter    :: vinflim        = -1.5_rkp*eV_To_Hartree  ! Inferior limit of PES [Hartree]
+  real(rkp)                         ,parameter    :: vpescut        = 6.0_rkp                 ! Superior limit of PES [eV]
+  real(rkp)                         ,parameter    :: vinflim        = -1.5_rkp                ! Inferior limit of PES [eV]
   integer                           ,parameter    :: ninputs        = 22
   integer                           ,parameter    :: nnodes2        = 50
   integer                           ,parameter    :: nnodes3        = 80
@@ -221,7 +221,113 @@ Subroutine Initialize_HO3_NNM_PES( This, Input, Atoms, iPES, i_Debug )
     end do
   close(Unit)
   ! ==============================================================================================================
-
+  ! T.E.S.T OF PES
+  ! ==============================================================================================================
+! ! ! ! !   R1
+! ! ! !   QH   = [-0.98049290,14.97060000, 0.00000000]/B_to_Ang
+! ! ! !   QO1  = [ 1.08972100, 0.67023720, 0.00000000]/B_to_Ang
+! ! ! !   QO2  = [-0.00061711,-0.00264323, 0.00000000]/B_to_Ang
+! ! ! !   QO3  = [-1.09095300, 0.67024130, 0.00000000]/B_to_Ang
+! ! ! !   Q    = [QH,QO1,QO2,QO3]
+! ! ! !   R(1) = sqrt((QH(1)-QO1(1))**(2.0)+(QH(2)-QO1(2))**(2.0)+(QH(3)-QO1(3))**(2.0))
+! ! ! !   R(2) = sqrt((QH(1)-QO2(1))**(2.0)+(QH(2)-QO2(2))**(2.0)+(QH(3)-QO2(3))**(2.0))
+! ! ! !   R(3) = sqrt((QH(1)-QO3(1))**(2.0)+(QH(2)-QO3(2))**(2.0)+(QH(3)-QO3(3))**(2.0))
+! ! ! !   R(4) = sqrt((QO1(1)-QO2(1))**(2.0)+(QO1(2)-QO2(2))**(2.0)+(QO1(3)-QO2(3))**(2.0))
+! ! ! !   R(5) = sqrt((QO1(1)-QO3(1))**(2.0)+(QO1(2)-QO3(2))**(2.0)+(QO1(3)-QO3(3))**(2.0))
+! ! ! !   R(6) = sqrt((QO2(1)-QO3(1))**(2.0)+(QO2(2)-QO3(2))**(2.0)+(QO2(3)-QO3(3))**(2.0))
+! ! ! !   write(*,"(a,f11.8)") "R1  ", This%TriatPotential( R, Q )/eV_To_Hartree
+! ! ! ! !  vdW 
+! ! ! !   QH   = [ 0.78666980, 3.50053100,-0.71934560]/B_to_Ang
+! ! ! !   QO1  = [ 0.18752010, 0.41123670,-0.35409540]/B_to_Ang
+! ! ! !   QO2  = [ 1.45847200, 0.39637080,-0.20257280]/B_to_Ang
+! ! ! !   QO3  = [ 1.92634100, 0.98441540, 0.83367190]/B_to_Ang
+! ! ! !   Q    = [QH,QO1,QO2,QO3]
+! ! ! !   R(1) = sqrt((QH(1)-QO1(1))**(2.0)+(QH(2)-QO1(2))**(2.0)+(QH(3)-QO1(3))**(2.0))
+! ! ! !   R(2) = sqrt((QH(1)-QO2(1))**(2.0)+(QH(2)-QO2(2))**(2.0)+(QH(3)-QO2(3))**(2.0))
+! ! ! !   R(3) = sqrt((QH(1)-QO3(1))**(2.0)+(QH(2)-QO3(2))**(2.0)+(QH(3)-QO3(3))**(2.0))
+! ! ! !   R(4) = sqrt((QO1(1)-QO2(1))**(2.0)+(QO1(2)-QO2(2))**(2.0)+(QO1(3)-QO2(3))**(2.0))
+! ! ! !   R(5) = sqrt((QO1(1)-QO3(1))**(2.0)+(QO1(2)-QO3(2))**(2.0)+(QO1(3)-QO3(3))**(2.0))
+! ! ! !   R(6) = sqrt((QO2(1)-QO3(1))**(2.0)+(QO2(2)-QO3(2))**(2.0)+(QO2(3)-QO3(3))**(2.0))
+! ! ! !   write(*,"(a,f11.8)") "vdw ", This%TriatPotential( R, Q )/eV_To_Hartree
+! ! ! ! !  SP 
+! ! ! !   QH   = [-0.33982700, 1.73209300, 0.34229690]/B_to_Ang
+! ! ! !   QO1  = [-0.10634330,-0.27156030, 0.17165700]/B_to_Ang
+! ! ! !   QO2  = [ 1.18499300,-0.25530220, 0.19431840]/B_to_Ang
+! ! ! !   QO3  = [ 1.71302000, 0.28937050, 1.22734000]/B_to_Ang
+! ! ! !   Q    = [QH,QO1,QO2,QO3]
+! ! ! !   R(1) = sqrt((QH(1)-QO1(1))**(2.0)+(QH(2)-QO1(2))**(2.0)+(QH(3)-QO1(3))**(2.0))
+! ! ! !   R(2) = sqrt((QH(1)-QO2(1))**(2.0)+(QH(2)-QO2(2))**(2.0)+(QH(3)-QO2(3))**(2.0))
+! ! ! !   R(3) = sqrt((QH(1)-QO3(1))**(2.0)+(QH(2)-QO3(2))**(2.0)+(QH(3)-QO3(3))**(2.0))
+! ! ! !   R(4) = sqrt((QO1(1)-QO2(1))**(2.0)+(QO1(2)-QO2(2))**(2.0)+(QO1(3)-QO2(3))**(2.0))
+! ! ! !   R(5) = sqrt((QO1(1)-QO3(1))**(2.0)+(QO1(2)-QO3(2))**(2.0)+(QO1(3)-QO3(3))**(2.0))
+! ! ! !   R(6) = sqrt((QO2(1)-QO3(1))**(2.0)+(QO2(2)-QO3(2))**(2.0)+(QO2(3)-QO3(3))**(2.0))
+! ! ! !   write(*,"(a,f11.8)") "SP  ", This%TriatPotential( R, Q )
+! ! ! ! !  R2 
+! ! ! !   QH   = [-3.54070100,-2.91651900, 2.10230400]/B_to_Ang
+! ! ! !   QO1  = [-2.56844900,-2.92502200, 2.10230200]/B_to_Ang
+! ! ! !   QO2  = [-2.23968600,-1.62587300, 2.10230300]/B_to_Ang
+! ! ! !   QO3  = [ 7.33762236,14.18866929, 2.10226723]/B_to_Ang
+! ! ! !   Q    = [QH,QO1,QO2,QO3]
+! ! ! !   R(1) = sqrt((QH(1)-QO1(1))**(2.0)+(QH(2)-QO1(2))**(2.0)+(QH(3)-QO1(3))**(2.0))
+! ! ! !   R(2) = sqrt((QH(1)-QO2(1))**(2.0)+(QH(2)-QO2(2))**(2.0)+(QH(3)-QO2(3))**(2.0))
+! ! ! !   R(3) = sqrt((QH(1)-QO3(1))**(2.0)+(QH(2)-QO3(2))**(2.0)+(QH(3)-QO3(3))**(2.0))
+! ! ! !   R(4) = sqrt((QO1(1)-QO2(1))**(2.0)+(QO1(2)-QO2(2))**(2.0)+(QO1(3)-QO2(3))**(2.0))
+! ! ! !   R(5) = sqrt((QO1(1)-QO3(1))**(2.0)+(QO1(2)-QO3(2))**(2.0)+(QO1(3)-QO3(3))**(2.0))
+! ! ! !   R(6) = sqrt((QO2(1)-QO3(1))**(2.0)+(QO2(2)-QO3(2))**(2.0)+(QO2(3)-QO3(3))**(2.0))
+! ! ! !   write(*,"(a,f11.8)") "R2  ", This%TriatPotential( R, Q )/eV_To_Hartree
+! ! ! ! !  cis  
+! ! ! !   QH   = [-8.29895200, 0.77876580, 0.85145730]/B_to_Ang
+! ! ! !   QO1  = [-7.33104200, 0.85289890, 0.93880420]/B_to_Ang
+! ! ! !   QO2  = [-6.95843300,-0.19507870,-0.18142730]/B_to_Ang
+! ! ! !   QO3  = [-7.96584000,-0.68987540,-0.71840830]/B_to_Ang
+! ! ! !   Q    = [QH,QO1,QO2,QO3]
+! ! ! !   R(1) = sqrt((QH(1)-QO1(1))**(2.0)+(QH(2)-QO1(2))**(2.0)+(QH(3)-QO1(3))**(2.0))
+! ! ! !   R(2) = sqrt((QH(1)-QO2(1))**(2.0)+(QH(2)-QO2(2))**(2.0)+(QH(3)-QO2(3))**(2.0))
+! ! ! !   R(3) = sqrt((QH(1)-QO3(1))**(2.0)+(QH(2)-QO3(2))**(2.0)+(QH(3)-QO3(3))**(2.0))
+! ! ! !   R(4) = sqrt((QO1(1)-QO2(1))**(2.0)+(QO1(2)-QO2(2))**(2.0)+(QO1(3)-QO2(3))**(2.0))
+! ! ! !   R(5) = sqrt((QO1(1)-QO3(1))**(2.0)+(QO1(2)-QO3(2))**(2.0)+(QO1(3)-QO3(3))**(2.0))
+! ! ! !   R(6) = sqrt((QO2(1)-QO3(1))**(2.0)+(QO2(2)-QO3(2))**(2.0)+(QO2(3)-QO3(3))**(2.0))
+! ! ! !   write(*,"(a,f11.8)") "cis ", This%TriatPotential( R, Q )/eV_To_Hartree
+! ! ! ! !  iso-SP
+! ! ! !   QH   = [-8.03406700, 0.41502660, 1.25868300]/B_to_Ang
+! ! ! !   QO1  = [-7.28650200, 0.89307890, 0.86218120]/B_to_Ang
+! ! ! !   QO2  = [-6.93604000,-0.27364960,-0.28938230]/B_to_Ang
+! ! ! !   QO3  = [-7.62207000,-0.13035430,-1.30030800]/B_to_Ang
+! ! ! !   Q    = [QH,QO1,QO2,QO3]
+! ! ! !   R(1) = sqrt((QH(1)-QO1(1))**(2.0)+(QH(2)-QO1(2))**(2.0)+(QH(3)-QO1(3))**(2.0))
+! ! ! !   R(2) = sqrt((QH(1)-QO2(1))**(2.0)+(QH(2)-QO2(2))**(2.0)+(QH(3)-QO2(3))**(2.0))
+! ! ! !   R(3) = sqrt((QH(1)-QO3(1))**(2.0)+(QH(2)-QO3(2))**(2.0)+(QH(3)-QO3(3))**(2.0))
+! ! ! !   R(4) = sqrt((QO1(1)-QO2(1))**(2.0)+(QO1(2)-QO2(2))**(2.0)+(QO1(3)-QO2(3))**(2.0))
+! ! ! !   R(5) = sqrt((QO1(1)-QO3(1))**(2.0)+(QO1(2)-QO3(2))**(2.0)+(QO1(3)-QO3(3))**(2.0))
+! ! ! !   R(6) = sqrt((QO2(1)-QO3(1))**(2.0)+(QO2(2)-QO3(2))**(2.0)+(QO2(3)-QO3(3))**(2.0))
+! ! ! !   write(*,"(a,f11.8)") "iso ", This%TriatPotential( R, Q )/eV_To_Hartree
+! ! ! ! !  trans
+! ! ! !   QH   = [-8.10197400, 1.07699800, 2.11706300]/B_to_Ang
+! ! ! !   QO1  = [-8.05590000, 1.65371600, 1.33650600]/B_to_Ang
+! ! ! !   QO2  = [-7.68724700, 0.45314220, 0.24893450]/B_to_Ang
+! ! ! !   QO3  = [-7.56644700, 0.92036090,-0.87620620]/B_to_Ang
+! ! ! !   Q    = [QH,QO1,QO2,QO3]
+! ! ! !   R(1) = sqrt((QH(1)-QO1(1))**(2.0)+(QH(2)-QO1(2))**(2.0)+(QH(3)-QO1(3))**(2.0))
+! ! ! !   R(2) = sqrt((QH(1)-QO2(1))**(2.0)+(QH(2)-QO2(2))**(2.0)+(QH(3)-QO2(3))**(2.0))
+! ! ! !   R(3) = sqrt((QH(1)-QO3(1))**(2.0)+(QH(2)-QO3(2))**(2.0)+(QH(3)-QO3(3))**(2.0))
+! ! ! !   R(4) = sqrt((QO1(1)-QO2(1))**(2.0)+(QO1(2)-QO2(2))**(2.0)+(QO1(3)-QO2(3))**(2.0))
+! ! ! !   R(5) = sqrt((QO1(1)-QO3(1))**(2.0)+(QO1(2)-QO3(2))**(2.0)+(QO1(3)-QO3(3))**(2.0))
+! ! ! !   R(6) = sqrt((QO2(1)-QO3(1))**(2.0)+(QO2(2)-QO3(2))**(2.0)+(QO2(3)-QO3(3))**(2.0))
+! ! ! !   write(*,"(a,f11.8)") "tran ", This%TriatPotential( R, Q )/eV_To_Hartree
+! ! ! ! !  P  
+! ! ! !   QH   = [-1.06729500,-4.01911700,-1.80515500]/B_to_Ang
+! ! ! !   QO1  = [-0.09573184,-4.01901200,-1.80519200]/B_to_Ang
+! ! ! !   QO2  = [11.72173000, 4.12200900, 6.15654900]/B_to_Ang
+! ! ! !   QO3  = [12.93650000, 4.12201000, 6.15655200]/B_to_Ang
+! ! ! !   Q    = [QH,QO1,QO2,QO3]
+! ! ! !   R(1) = sqrt((QH(1)-QO1(1))**(2.0)+(QH(2)-QO1(2))**(2.0)+(QH(3)-QO1(3))**(2.0))
+! ! ! !   R(2) = sqrt((QH(1)-QO2(1))**(2.0)+(QH(2)-QO2(2))**(2.0)+(QH(3)-QO2(3))**(2.0))
+! ! ! !   R(3) = sqrt((QH(1)-QO3(1))**(2.0)+(QH(2)-QO3(2))**(2.0)+(QH(3)-QO3(3))**(2.0))
+! ! ! !   R(4) = sqrt((QO1(1)-QO2(1))**(2.0)+(QO1(2)-QO2(2))**(2.0)+(QO1(3)-QO2(3))**(2.0))
+! ! ! !   R(5) = sqrt((QO1(1)-QO3(1))**(2.0)+(QO1(2)-QO3(2))**(2.0)+(QO1(3)-QO3(3))**(2.0))
+! ! ! !   R(6) = sqrt((QO2(1)-QO3(1))**(2.0)+(QO2(2)-QO3(2))**(2.0)+(QO2(3)-QO3(3))**(2.0))
+! ! ! !   write(*,"(a,f11.8)") "P   ", This%TriatPotential( R, Q )/eV_To_Hartree
+  ! ==============================================================================================================
   if (i_Debug_Loc) call Logger%Exiting
 End Subroutine
 !--------------------------------------------------------------------------------------------------------------------------------!
@@ -337,7 +443,7 @@ Function HO3_NNM_Potential_From_R_OnlyTriat( This, R, Q ) result(V)
     end if
   end if
   
-  V         = Vtria
+  V         = Vtria*eV_To_Hartree
 
 End Function
 !--------------------------------------------------------------------------------------------------------------------------------!
@@ -361,35 +467,39 @@ Subroutine Compute_HO3_NNM_PES_1d( This, R, Q, V, dVdR, dVdQ )
   real(rkp)                                                   ::    dVdiatdR
   real(rkp)                                                   ::    C
   real(rkp)                                                   ::    D
+  real(rkp)                                                   ::    Vp
+  real(rkp)                                                   ::    Vm
   
   V           = Zero
   dVdR        = Zero
-  do iP=1,6
-    call This%Pairs(iP)%Vd%Compute_Vd_dVd( R(iP), Vdiat, dVdiatdR )
-    V         = Vdiat     + V
-    dVdR(iP)  = dVdiatdR
-  end do
+!   do iP=1,6
+!     call This%Pairs(iP)%Vd%Compute_Vd_dVd( R(iP), Vdiat, dVdiatdR )
+!     V         = Vdiat     + V
+!     dVdR(iP)  = dVdiatdR
+!   end do
   Vtria       = This%TriatPotential( R, Q )
   V           = V         + Vtria
   
 !   write(*,"(a,6es15.8)") "R     = ", R
   do iP=1,6
-    h         = 1.0E-7 !R(iP)*1.0E-8_rkp
+    h         = R(iP)*1.0E-2_rkp
     Rp        = R
     Rp(iP)    = Rp(iP)    + h
     Rm        = R
     Rm(iP)    = Rm(iP)    - h
-    C         = (This%TriatPotential( Rp, Q ) -  This%TriatPotential( Rm, Q ))/(Two*h) ! Two*Vtria +
+    Vp        = This%TriatPotential( Rp, Q )
+    Vm        = This%TriatPotential( Rm, Q )
+    C         = ( Vp - Vm )/(Two*h)
     Rp(iP)    = Rp(iP)    + h
     Rm(iP)    = Rm(iP)    - h
-    D         = (This%TriatPotential( Rp, Q ) -  This%TriatPotential( Rm, Q ))/(Four*h)
-    dVdR(iP)  = dVdR(iP)  + (Four*C-D)/Three
+    Vp        = This%TriatPotential( Rp, Q )
+    Vm        = This%TriatPotential( Rm, Q )
+    D         = ( Vp - Vm )/(Four*h)
+    dVdR(iP)  = (Four*C-D)/Three
+!     write(*,"(a,es15.8)") "dVdR = ", dVdR(iP)
   end do
   
-  write(*,"(a,6es15.8)") "Vtria = ", dVdR
-!   stop
   dVdQ        = Zero
-
   call This%TransToCart_4Atoms( R, Q, dVdR, dVdQ)
   
 End Subroutine
@@ -413,7 +523,7 @@ Subroutine ho3NN( R, V, va, vb, vc )
   real(rkp) ,dimension(0:ninputs)                             ::    basis
   real(rkp) ,dimension(ninputs)                               ::    xinput
   
-  xbond = exp(-R/(alfa*B_To_Ang))
+  xbond = exp(-R/(alfa))
   basis = Zero
   
   call pip( xbond, basis )
@@ -424,7 +534,7 @@ Subroutine ho3NN( R, V, va, vb, vc )
   call getpot( xinput, pavgb, pdelb, weightsb, biasb, vb )
   call getpot( xinput, pavgc, pdelc, weightsc, biasc, vc )
   
-  V     = ((va+vb+vc)/Three)*eV_To_Hartree
+  V     = ((va+vb+vc)/Three)
   
 
 End Subroutine 
